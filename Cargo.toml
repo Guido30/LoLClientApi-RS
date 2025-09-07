@@ -1,6 +1,6 @@
 [package]
 name = "lolclientapi_rs"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Guido30"]
 license = "MIT"
 repository = "https://github.com/Guido30/LoLClientApi-RS"
