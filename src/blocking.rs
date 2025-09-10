@@ -129,4 +129,15 @@ impl LeagueClient {
         })?;
         Ok(result)
     }
+
+    pub fn get_lol_chat_v1_me(&self) -> Result<lol_chat::LolChatUserResource, LeagueClientError> {
+        let url = self.config.build_url("lol-chat/v1/me");
+        let response = self.client.get(url).send()?;
+        let text = response.text().unwrap_or_default();
+        let result = serde_json::from_str(&text).map_err(|e| LeagueClientError {
+            error: Box::new(e),
+            response_text: Some(text),
+        })?;
+        Ok(result)
+    }
 }

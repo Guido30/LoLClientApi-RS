@@ -32,3 +32,27 @@ pub struct LolChatFriendResource {
     pub display_group_name: String,
     pub lol: HashMap<String, String>,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct LolChatUserResource {
+    pub summoner_id: u64,
+    pub id: String,
+    pub name: String,
+    pub pid: String,
+    pub puuid: String,
+    pub obfuscated_summoner_id: u64,
+    pub game_name: String,
+    pub game_tag: String,
+    pub icon: i32,
+    pub availability: String,
+    pub platform_id: String,
+    pub patchline: String,
+    pub product: String,
+    pub product_name: String,
+    pub summary: String,
+    pub time: u64,
+    pub status_message: Option<String>,
+    pub last_seen_online_timestamp: Option<String>,
+    pub lol: HashMap<String, String>,
+}

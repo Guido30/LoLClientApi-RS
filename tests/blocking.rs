@@ -72,4 +72,12 @@ mod lol_chat {
         dbg!(&res);
         assert!(res.is_ok())
     }
+
+    #[test]
+    fn test_get_lol_chat_v1_me() {
+        let client = LeagueClient::new();
+        let res = client.get_lol_chat_v1_me();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
 }
