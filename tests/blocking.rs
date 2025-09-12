@@ -81,3 +81,15 @@ mod lol_chat {
         assert!(res.is_ok())
     }
 }
+
+mod lol_gameflow {
+    use super::LeagueClient;
+
+    #[test]
+    fn test_post_lol_gameflow_v1_tick() {
+        let client = LeagueClient::new();
+        let res = client.post_lol_gameflow_v1_tick();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+}

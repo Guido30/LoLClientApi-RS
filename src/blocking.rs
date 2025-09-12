@@ -140,4 +140,10 @@ impl LeagueClient {
         })?;
         Ok(result)
     }
+
+    pub fn post_lol_gameflow_v1_tick(&self) -> Result<(), LeagueClientError> {
+        let url = self.config.build_url("lol-gameflow/v1/tick");
+        self.client.patch(url).send()?;
+        Ok(())
+    }
 }
