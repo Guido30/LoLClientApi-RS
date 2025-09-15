@@ -41,9 +41,13 @@ mod lol_champions {
     use super::LeagueClient;
 
     #[test]
-    fn test_get_lol_champions_v1_inventories_by_summoner_id_champions_by_champion_id_skins() {
+    fn test_get_lol_champions_v1_inventories_by_summoner_id_champions_by_champion_id_skins()
+     {
         let client = LeagueClient::new();
-        let summoner_id = client.get_lol_summoner_v1_current_summoner_account_and_summoner_ids().unwrap().summoner_id;
+        let summoner_id = client
+            .get_lol_summoner_v1_current_summoner_account_and_summoner_ids()
+            .unwrap()
+            .summoner_id;
         let res = client.get_lol_champions_v1_inventories_by_summoner_id_champions_by_champion_id_skins(summoner_id as i64, 1);
         dbg!(&res);
         assert!(res.is_ok())
@@ -56,7 +60,8 @@ mod lol_summoner {
     #[test]
     fn test_get_lol_summoner_v1_current_summoner_account_and_summoner_ids() {
         let client = LeagueClient::new();
-        let res = client.get_lol_summoner_v1_current_summoner_account_and_summoner_ids();
+        let res = client
+            .get_lol_summoner_v1_current_summoner_account_and_summoner_ids();
         dbg!(&res);
         assert!(res.is_ok())
     }
@@ -89,6 +94,18 @@ mod lol_gameflow {
     fn test_post_lol_gameflow_v1_tick() {
         let client = LeagueClient::new();
         let res = client.post_lol_gameflow_v1_tick();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+}
+
+mod lol_heartbeat {
+    use super::LeagueClient;
+
+    #[test]
+    fn test_post_lol_heartbeat_v1_connection_status() {
+        let client = LeagueClient::new();
+        let res = client.post_lol_heartbeat_v1_connection_status();
         dbg!(&res);
         assert!(res.is_ok())
     }
