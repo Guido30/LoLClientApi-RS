@@ -9,7 +9,7 @@ Add this to your Cargo.toml:
 
 ```toml
 [dependencies]
-lolclientapi_rs = { version = "0.1.0", git = "https://github.com/Guido30/LoLClientApi-RS" }
+lolclientapi_rs = { version = "0.1.6", git = "https://github.com/Guido30/LoLClientApi-RS" }
 ```
 
 Example usage
@@ -22,18 +22,18 @@ fn main() {
     let mut client = LeagueClient::new();
 
     // Check if the api is responding
-    let status = client.status()
+    let status = client.status();
 
     if status {
         // Call any implemented endpoint and get its serialized object back
-        let result: client.get_lol_summoner_v1_current_summoner_account_and_summoner_ids().unwrap()
-        let sum_id = result.summoner_id
+        let result: client.get_lol_summoner_v1_current_summoner_account_and_summoner_ids().unwrap();
+        let sum_id = result.summoner_id;
 
         // Use the received data
-        println!("Current summoner id: {}", sum_id)
+        println!("Current summoner id: {}", sum_id);
     } else {
         // Connection can be re-established
-        let _ = client.retry()
+        let _ = client.retry();
     }
 }
 ```
