@@ -37,6 +37,19 @@ mod lol_champ_select {
     }
 }
 
+
+mod lol_team_builder {
+    use super::LeagueClient;
+
+    #[test]
+    fn test_get_lol_lobby_team_builder_champ_select_v1_session() {
+        let client = LeagueClient::new();
+        let res = client.get_lol_lobby_team_builder_champ_select_v1_session();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+}
+
 mod lol_champions {
     use super::LeagueClient;
 
@@ -58,10 +71,51 @@ mod lol_summoner {
     use super::LeagueClient;
 
     #[test]
+    fn test_get_lol_summoner_v1_current_summoner() {
+        let client = LeagueClient::new();
+        let res = client
+            .get_lol_summoner_v1_current_summoner();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+
+    #[test]
     fn test_get_lol_summoner_v1_current_summoner_account_and_summoner_ids() {
         let client = LeagueClient::new();
         let res = client
             .get_lol_summoner_v1_current_summoner_account_and_summoner_ids();
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+
+    #[test]
+    fn test_get_lol_summoner_v2_summoners() {
+        let client = LeagueClient::new();
+        let id = client.get_lol_summoner_v1_current_summoner().unwrap().summoner_id;
+        let ids = [id, id];
+        let res = client
+            .get_lol_summoner_v2_summoners(&ids);
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+
+    #[test]
+    fn test_get_lol_summoner_v2_summoner_names_by_puuids() {
+        let client = LeagueClient::new();
+        let puuid = client.get_lol_summoner_v1_current_summoner().unwrap().puuid;
+        let puuids: [&str; 2] = [&puuid, &puuid];
+        let res = client
+            .get_lol_summoner_v2_summoner_names_by_puuids(&puuids);
+        dbg!(&res);
+        assert!(res.is_ok())
+    }
+
+    #[test]
+    fn test_get_lol_summoner_v2_summoners_puuid_puuid() {
+        let client = LeagueClient::new();
+        let puuid = client.get_lol_summoner_v1_current_summoner().unwrap().puuid;
+        let res = client
+            .get_lol_summoner_v2_summoners_puuid_puuid(&puuid);
         dbg!(&res);
         assert!(res.is_ok())
     }

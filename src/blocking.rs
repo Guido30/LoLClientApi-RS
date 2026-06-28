@@ -120,6 +120,23 @@ impl LeagueClient {
         Ok(())
     }
 
+    pub fn get_lol_lobby_team_builder_champ_select_v1_session(
+        &self
+    ) -> Result<
+        lol_champ_select::TeamBuilderDirectChampSelectSession,
+        LeagueClientError,
+    > {
+        let url = self.config.build_url("lol-lobby-team-builder/champ-select/v1/session");
+        let response = self.client.get(url).send()?;
+        let text = response.text().unwrap_or_default();
+        let result =
+            serde_json::from_str(&text).map_err(|e| LeagueClientError {
+                error: Box::new(e),
+                response_text: Some(text),
+            })?;
+        Ok(result)
+    }
+
     pub fn get_lol_champions_v1_inventories_by_summoner_id_champions_by_champion_id_skins(
         &self,
         summoner_id: i64,
@@ -142,6 +159,25 @@ impl LeagueClient {
         Ok(result)
     }
 
+    pub fn get_lol_summoner_v1_current_summoner(
+        &self,
+    ) -> Result<
+        lol_summoner::LolSummonerSummoner,
+        LeagueClientError,
+    > {
+        let url = self.config.build_url(
+            "lol-summoner/v1/current-summoner",
+        );
+        let response = self.client.get(url).send()?;
+        let text = response.text().unwrap_or_default();
+        let result =
+            serde_json::from_str(&text).map_err(|e| LeagueClientError {
+                error: Box::new(e),
+                response_text: Some(text),
+            })?;
+        Ok(result)
+    }
+
     pub fn get_lol_summoner_v1_current_summoner_account_and_summoner_ids(
         &self,
     ) -> Result<
@@ -150,6 +186,68 @@ impl LeagueClient {
     > {
         let url = self.config.build_url(
             "lol-summoner/v1/current-summoner/account-and-summoner-ids",
+        );
+        let response = self.client.get(url).send()?;
+        let text = response.text().unwrap_or_default();
+        let result =
+            serde_json::from_str(&text).map_err(|e| LeagueClientError {
+                error: Box::new(e),
+                response_text: Some(text),
+            })?;
+        Ok(result)
+    }
+
+    pub fn get_lol_summoner_v2_summoners(
+        &self,
+        ids: &[u64],
+    ) -> Result<
+        Vec<lol_summoner::LolSummonerSummoner>,
+        LeagueClientError,
+    > {
+        let url = self.config.build_url(
+            "lol-summoner/v2/summoners",
+        );
+        let response = self.client.get(url).query(&[("ids", serde_json::to_string(ids)?)]).send()?;
+        let text = response.text().unwrap_or_default();
+        let result =
+            serde_json::from_str(&text).map_err(|e| LeagueClientError {
+                error: Box::new(e),
+                response_text: Some(text),
+            })?;
+        Ok(result)
+    }
+
+    pub fn get_lol_summoner_v2_summoner_names_by_puuids(
+        &self,
+        puuids: &[&str],
+    ) -> Result<
+        Vec<lol_summoner::LolSummonerSummonerIdAndName>,
+        LeagueClientError,
+    > {
+        let url = self.config.build_url(
+            "lol-summoner/v2/summoner-names-by-puuids",
+        );
+        let response = self.client.get(url).query(&[("puuids", serde_json::to_string(&puuids)?)]).send()?;
+        let text = response.text().unwrap_or_default();
+        let result =
+            serde_json::from_str(&text).map_err(|e| LeagueClientError {
+                error: Box::new(e),
+                response_text: Some(text),
+            })?;
+        Ok(result)
+    }
+
+    pub fn get_lol_summoner_v2_summoners_puuid_puuid(
+        &self,
+        puuid: &str,
+    ) -> Result<
+        lol_summoner::LolSummonerSummoner,
+        LeagueClientError,
+    > {
+        let url = self.config.build_url(
+            &format!(
+            "/lol-summoner/v2/summoners/puuid/{puuid}"
+        ),
         );
         let response = self.client.get(url).send()?;
         let text = response.text().unwrap_or_default();
