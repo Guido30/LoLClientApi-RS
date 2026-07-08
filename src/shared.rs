@@ -17,7 +17,7 @@ pub struct LeagueClientConfig {
 
 #[derive(Debug)]
 pub struct LeagueClientError {
-    pub error: Box<dyn Error>,
+    pub error: Box<dyn Error + Send + Sync>,
     pub response_text: Option<String>,
 }
 
@@ -43,10 +43,8 @@ impl LeagueClientConfig {
         let mut headers = header::HeaderMap::new();
         headers.insert(
             header::AUTHORIZATION,
-            header::HeaderValue::from_str(
-                format!("Basic {}", self.auth_token_encoded).as_str(),
-            )
-            .unwrap(),
+            header::HeaderValue::from_str(format!("Basic {}", self.auth_token_encoded).as_str())
+                .unwrap(),
         );
         headers
     }
@@ -63,8 +61,8 @@ impl Default for LeagueClientConfig {
         if let Ok(v) = get_process_port_token() {
             config.port = v.port;
             config.auth_token = v.auth_token;
-            config.auth_token_encoded = general_purpose::STANDARD
-                .encode(format!("riot:{}", config.auth_token));
+            config.auth_token_encoded =
+                general_purpose::STANDARD.encode(format!("riot:{}", config.auth_token));
         }
 
         config
@@ -131,8 +129,7 @@ pub fn get_process_port_token() -> Result<PortAndToken, Box<dyn Error>> {
                 .args(["-Command", wmi_cmd])
                 .creation_flags(0x08000000)
                 .output()?;
-            output_string =
-                String::from_utf8_lossy(&wmi_out.stdout).to_string();
+            output_string = String::from_utf8_lossy(&wmi_out.stdout).to_string();
             &output_string
         }
     };
